@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>QUIZ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color:beige;
+      margin: 2;
+      padding: 2;
+    }
+
+    h1 {
+      text-align: center;
+      background-color: rebeccapurple;
+      color: aquamarine;
+      padding: 25px;
+      margin: 2;
+    }
+
+    #quiz {
+      background-color: blanchedalmond;
+      border-radius: 7px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin: 20px;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    .question {
+      margin-bottom: 10px;
+    }
+
+    .answer {
+      margin-left: 10px;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .incorrect {
+      color: red;
+    }
+
+    .total-marks {
+      font-size: 20px;
+      text-align: center;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    label {
+      cursor: pointer;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz</h1>
+
+  <div id="quiz"></div>
+
+  <script>
+    var questions = [
+      {
+        question: "What is the capital of France?",
+        answers: ["Paris", "London", "Berlin", "Rome"],
+        correctAnswer: 0,
+        selectedAnswer: -1
+      },      
+      {
+      question: "What is the capital of India?",
+        answers: ["Denmark", "Delhi", "Berlin", "Rome"],
+        correctAnswer: 1,
+        selectedAnswer: -1},
+        {
+      question: "What is the called a Red planet?",
+        answers: ["Mars", "Pluto", "Jupiter", "Moon"],
+        correctAnswer: 0,
+        selectedAnswer: -1},
+        {
+      question: "What is the largest mammal in the world?",
+        answers: ["Lizard", "Bat", "Frog", "Blue Whale"],
+        correctAnswer: 3,
+        selectedAnswer: -1},
+        {
+      question: "Who painted Mona Lisa?",
+        answers: ["ME", "YOU", "DA VINCI", "DI CAPRIO"],
+        correctAnswer: 2,
+        selectedAnswer: -1},
+        {
+      question: "What is the Currency of India?",
+        answers: ["Dirham", "Riyal", "Rupee", "Yen"],
+        correctAnswer: 2,
+        selectedAnswer: -1},
+        {
+      question: "In which year did Titanic sink?",
+        answers: ["1912", "1913", "1914", "1915"],
+        correctAnswer: 0,
+        selectedAnswer: -1},
+        {
+        question: "Chemical symbol of Gold?",
+        answers: ["H", "B", "Au", "Ag"],
+        correctAnswer: 2,
+        selectedAnswer: -1},
+        {
+        question: "Longest river in the world?",
+        answers: ["Ganga", "Godavari", "Nile", "Indus"],
+        correctAnswer: 2,
+        selectedAnswer: -1},
+        {
+        question: "Chemical symbol of Carbon?",
+        answers: ["H", "B", "C", "Ag"],
+        correctAnswer: 2,
+        selectedAnswer: -1},
+
+        
+
+    ];
+
+    var quizContainer = document.querySelector("#quiz");
+
+    var questionIndex = 0;
+    var totalMarks = 0;
+
+    // Display the first question
+    displayQuestion(questionIndex);
+
+    // Function to display a question
+    function displayQuestion(questionIndex) {
+      var question = questions[questionIndex];
+
+      // Clear the quiz container
+      quizContainer.innerHTML = "";
+
+      // Create a new element to display the question
+      var questionElement = document.createElement("h2");
+      questionElement.textContent = question.question;
+      quizContainer.appendChild(questionElement);
+
+      // Create a new element to display the answers
+      var answerListElement = document.createElement("ul");
+      for (var i = 0; i < question.answers.length; i++) {
+        var answerElement = document.createElement("li");
+        
+        // Create a radio input for each answer
+        var radioInput = document.createElement("input");
+        radioInput.type = "radio";
+        radioInput.name = "answer";
+        radioInput.value = i;
+        radioInput.checked = i === question.selectedAnswer; // Check the selected answer
+        
+        // Add an event listener to the radio input
+        radioInput.addEventListener("change", function(event) {
+          question.selectedAnswer = parseInt(event.target.value);
+        });
+        
+        var label = document.createElement("label");
+        label.appendChild(radioInput);
+        label.appendChild(document.createTextNode(question.answers[i]));
+
+        answerElement.appendChild(label);
+        answerListElement.appendChild(answerElement);
+      }
+
+      quizContainer.appendChild(answerListElement);
+      
+      var submitButton = document.createElement("button");
+      submitButton.textContent = "Submit";
+      submitButton.addEventListener("click", function() {
+        checkAnswer(questionIndex, question.selectedAnswer);
+      });
+
+      quizContainer.appendChild(submitButton);
+    }
+
+    // Function to check the answer to a question
+    function checkAnswer(questionIndex, answerIndex) {
+      var question = questions[questionIndex];
+      var correctAnswer = question.correctAnswer;
+
+      if (answerIndex === correctAnswer) {
+        // The answer is correct
+        totalMarks++;
+        alert("Correct!");
+      } else {
+        // The answer is incorrect
+        alert("Incorrect. The correct answer is " + question.answers[correctAnswer]);
+      }
+
+      // Check if we are on the last question
+      if (questionIndex === questions.length - 1) {
+        // Display the total marks
+        displayTotalMarks();
+      } else {
+        // Display the next question
+        questionIndex++;
+        displayQuestion(questionIndex);
+      }
+    }
+
+    // Function to display the total marks
+    function displayTotalMarks() {
+      // Create a new element to display the total marks
+      var totalMarksElement = document.createElement("h3");
+      totalMarksElement.textContent = "Total marks: " + totalMarks;
+      quizContainer.appendChild(totalMarksElement);
+    }
+  </script>
+</body>
+</html>
